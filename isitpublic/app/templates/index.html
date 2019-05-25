@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<hr>
+<div class="row justify-content-md-center">
+  <aside class="col-md-6">
+    <div class="card">
+      <article class="card-body">
+        <h3 class="card-title mb-4 mt-1">Check if IP Address is public</h3>
+        <form action="{{ url_for('index') }}" method="post" novalidate>
+            <div class="form-group">
+              {{ form.address(placeholder='Enter The IP Address', class_='form-control')}}
+            </div> <!-- form-group// --> 
+            <div class="form-group">
+                {{ form.submit(class_='btn btn-primary')}}
+                {{ form.csrf_token }}
+            </div> <!-- form-group// -->                                                           
+          </form>
+          {% if result == True %}
+          <div class="alert alert-warning" role="alert">
+            {{ip}} is a private IP address
+          </div>
+          <p>A private IP address is the address space allocated by InterNIC to allow organizations to create their own private network. 
+            There are three IP blocks (1 class A, 1 class B and 1 class C) reserved for a private use. 
+            The computers, tablets and smartphones sitting behind your home, 
+            and the personal computers within an organizations are usually assigned private IP addresses. 
+            A network printer residing in your home is assigned a private address so that only your family can print to your local printer.</p>
+
+          <p>When a computer is assigned a private IP address, the local devices see this computer via it's private IP address. 
+            However, the devices residing outside of your local network cannot directly communicate via the private IP address, 
+            but uses your router's public IP address to communicate. To allow direct access to a local device which is assigned a private IP address, a Network Address Translator (NAT) should be used.</p>
+          {% elif result == False %}
+          <div class="alert alert-success" role="alert">
+              {{ip}} is a public IP address
+          </div>
+          <p>A public IP address is the address that is assigned to a computing device to allow direct 
+            access over the Internet. A web server, email server and any server device directly accessible 
+            from the Internet are candidate for a public IP address. A public IP address is globally unique, 
+            and can only be assigned to a unique device.</p>
+          {% endif %}
+          {% if error %}
+          <div class="alert alert-danger" role="alert">
+              {{ error }}
+          </div>
+          {% endif %}
+      </article>
+    </div> <!-- card.// -->
+  </aside> <!-- col.// -->
+</div>
+{% endblock %}

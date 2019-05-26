@@ -1,0 +1,12 @@
+
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker build -t tmidi/isitpublic .
+  - docker run -d -p 5000:5000 tmidi/isitpublic
+
+after_script:
+  - docker images
